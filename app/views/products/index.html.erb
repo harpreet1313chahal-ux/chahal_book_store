@@ -1,0 +1,51 @@
+<h1>Chahal Book Store</h1>
+<%= form_with url: products_path, method: :get, local: true do %>
+
+  <%= text_field_tag :search, params[:search], placeholder: "Search books..." %>
+
+  <%= select_tag :category_id,
+      options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
+      include_blank: "All Categories" %>
+
+  <%= submit_tag "Search" %>
+
+<% end %>
+
+<p><%= link_to "Browse Categories", categories_path %></p>
+
+<p>
+  <%= link_to "New Books", products_path(filter: "new") %> |
+  <%= link_to "Recently Updated", products_path(filter: "updated") %> |
+  <%= link_to "All Books", products_path %>
+</p>
+
+<% if @products.any? %>
+
+  <% @products.each do |product| %>
+
+    <div style="border:1px solid black; padding:10px; margin:10px;">
+
+      <h3>
+        <%= link_to product.title, product %>
+      </h3>
+
+      <p>
+        <strong>Author:</strong>
+        <%= product.author %>
+      </p>
+
+      <p>
+        $<%= product.price %>
+      </p>
+
+    </div>
+
+  <% end %>
+
+<% else %>
+
+  <h3>No books found.</h3>
+
+<% end %>
+
+<%= paginate @products %>

@@ -1,0 +1,50 @@
+<h1>Checkout</h1>
+
+<p>Customer Information</p>
+
+<%= form_with url: place_order_cart_path, method: :post do %>
+  <p>
+    Address<br>
+    <%= text_field_tag :address %>
+  </p>
+
+  <p>
+    Province<br>
+    <%= select_tag :province,
+      options_for_select(
+        ["Manitoba", "Ontario", "Alberta", "British Columbia"],
+        params[:province]
+      ) %>
+  </p>
+
+  <%= submit_tag "Place Order" %>
+
+<% end %>
+
+<hr>
+
+<h2>Invoice</h2>
+
+<% @items.each do |product| %>
+
+  <p>
+    <strong><%= product.title %></strong><br>
+
+    Quantity:
+    <%= @cart[product.id.to_s] %><br>
+
+    Price:
+    $<%= product.price %>
+  </p>
+
+<% end %>
+
+<hr>
+
+<p><strong>Subtotal:</strong> $<%= @subtotal.round(2) %></p>
+
+<p><strong>GST:</strong> $<%= @gst.round(2) %></p>
+
+<p><strong>PST/HST:</strong> $<%= @pst.round(2) %></p>
+
+<h3>Total: $<%= @total.round(2) %></h3>

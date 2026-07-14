@@ -1,0 +1,24 @@
+<h1><%= @category.name %></h1>
+
+<% @products.each do |product| %>
+
+<div style="border:1px solid black; padding:10px; margin:10px;">
+
+<h3>
+<%= link_to product.title, product %>
+</h3>
+
+<p>
+Author:
+<%= product.author %>
+</p>
+
+<p>
+$<%= product.price %>
+</p>
+
+</div>
+
+<% end %>
+
+<%= link_to "All Categories", categories_path %>

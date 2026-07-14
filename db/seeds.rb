@@ -1,0 +1,64 @@
+require "net/http"
+require "json"
+
+puts "Deleting old data..."
+
+Category.destroy_all
+Product.destroy_all
+
+fiction = Category.create!(
+  name: "Fiction",
+  description: "Fiction Books"
+)
+
+education = Category.create!(
+  name: "Education",
+  description: "Educational Books"
+)
+
+children = Category.create!(
+  name: "Children",
+  description: "Children Books"
+)
+
+programming = Category.create!(
+  name: "Programming",
+  description: "Programming Books"
+)
+
+categories = [fiction, education, children, programming]
+
+subjects = [
+  "fiction",
+  "science",
+  "children",
+  "programming"
+]
+
+subjects.each_with_index do |subject, index|
+
+  url = URI("https://openlibrary.org/subjects/#{subject}.json?limit=25")
+
+  response = Net::HTTP.get(url)
+
+  books = JSON.parse(response)
+
+  books["works"].each do |book|
+
+    Product.create!(
+      title: book["title"],
+      author: book["authors"]&.first&.dig("name") || "Unknown",
+      isbn: rand(1000000000000..9999999999999).to_s,
+      description: "Imported from Open Library",
+      price: rand(10..60),
+      stock_quantity: rand(5..40),
+      image_url: "",
+      category: categories[index]
+    )
+
+  end
+end
+
+puts "Done!"
+puts "#{Category.count} categories created"
+puts "#{Product.count} products created"
