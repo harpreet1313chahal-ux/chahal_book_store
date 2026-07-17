@@ -11,17 +11,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
+      - name: Scan for common Rails security vulnerabilities
         run: bundle exec brakeman --no-pager
 
-      - name: Scan for known security vulnerabilities in gems used
+      - name: Scan for known security vulnerabilities
         run: bundle exec bundler-audit
 
   lint:
@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -44,11 +44,11 @@ jobs:
           DEPENDENCIES_HASH: ${{ hashFiles('.ruby-version', '**/.rubocop.yml', '**/.rubocop_todo.yml', 'Gemfile.lock') }}
         with:
           path: ${{ env.RUBOCOP_CACHE_ROOT }}
-          key: rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}-${{ github.ref_name == github.event.repository.default_branch && github.run_id || 'default' }}
+          key: rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}
           restore-keys: |
-            rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}-
+            rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}
 
-      - name: Lint code for consistent style
+      - name: Lint code
         run: bundle exec rubocop -f github
 
   test:
@@ -56,10 +56,10 @@ jobs:
 
     steps:
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libvips
+        run: sudo apt-get update && sudo apt-get install -y libvips
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -76,25 +76,25 @@ jobs:
 
     steps:
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libvips
+        run: sudo apt-get update && sudo apt-get install -y libvips
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
-      - name: Run System Tests
+      - name: Run system tests
         env:
           RAILS_ENV: test
         run: bundle exec rails db:test:prepare test:system
 
-      - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
+      - name: Upload screenshots
         if: failure()
+        uses: actions/upload-artifact@v4
         with:
           name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
+          path: tmp/screenshots
           if-no-files-found: ignore
