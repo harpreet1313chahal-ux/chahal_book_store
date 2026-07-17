@@ -26,7 +26,7 @@ programming = Category.create!(
   description: "Programming Books"
 )
 
-categories = [fiction, education, children, programming]
+categories = [ fiction, education, children, programming ]
 
 subjects = [
   "fiction",
@@ -36,7 +36,6 @@ subjects = [
 ]
 
 subjects.each_with_index do |subject, index|
-
   url = URI("https://openlibrary.org/subjects/#{subject}.json?limit=25")
 
   response = Net::HTTP.get(url)
@@ -44,7 +43,6 @@ subjects.each_with_index do |subject, index|
   books = JSON.parse(response)
 
   books["works"].each do |book|
-
     Product.create!(
       title: book["title"],
       author: book["authors"]&.first&.dig("name") || "Unknown",
@@ -55,7 +53,6 @@ subjects.each_with_index do |subject, index|
       image_url: "",
       category: categories[index]
     )
-
   end
 end
 

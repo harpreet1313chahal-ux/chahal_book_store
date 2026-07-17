@@ -1,5 +1,4 @@
 class CartsController < ApplicationController
-
   def show
     @cart = session[:cart] || {}
     @items = Product.find(@cart.keys)
@@ -49,7 +48,6 @@ class CartsController < ApplicationController
     total = 0
 
     session[:cart].each do |product_id, quantity|
-
       product = Product.find(product_id)
 
       subtotal = product.price * quantity
@@ -63,7 +61,6 @@ class CartsController < ApplicationController
       )
 
       total += subtotal
-
     end
 
     order.update(total_price: total)
@@ -96,5 +93,4 @@ class CartsController < ApplicationController
     session[:cart].delete(params[:id])
     redirect_to cart_path
   end
-
 end
