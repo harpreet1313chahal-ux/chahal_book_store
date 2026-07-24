@@ -1,0 +1,17 @@
+<h1>Order #<%= @order.id %></h1>
+
+<p><strong>Date:</strong> <%= @order.created_at.strftime("%B %d, %Y") %></p>
+<p><strong>Total:</strong> $<%= @order.total_price %></p>
+
+<h2>Products</h2>
+
+<% @order.order_items.each do |item| %>
+  <div class="product-card">
+    <h3><%= item.product.title %></h3>
+    <p>Quantity: <%= item.quantity %></p>
+    <p>Unit Price: $<%= item.unit_price %></p>
+<p>Subtotal: $<%= item.quantity * item.unit_price %></p>
+  </div>
+<% end %>
+
+<p><%= link_to "Back to Orders", orders_path %></p>

@@ -1,4 +1,9 @@
+<p>
+  <%= link_to "Home", root_path %> → Products
+</p>
+
 <h1>Chahal Book Store</h1>
+
 <%= form_with url: products_path, method: :get, local: true do %>
 
   <%= text_field_tag :search, params[:search], placeholder: "Search books..." %>
@@ -13,6 +18,8 @@
 
 <p><%= link_to "Browse Categories", categories_path %></p>
 
+<p><%= link_to "My Orders", orders_path %></p>
+
 <p>
   <%= link_to "New Books", products_path(filter: "new") %> |
   <%= link_to "Recently Updated", products_path(filter: "updated") %> |
@@ -21,26 +28,7 @@
 
 <% if @products.any? %>
 
-  <% @products.each do |product| %>
-
-    <div style="border:1px solid black; padding:10px; margin:10px;">
-
-      <h3>
-        <%= link_to product.title, product %>
-      </h3>
-
-      <p>
-        <strong>Author:</strong>
-        <%= product.author %>
-      </p>
-
-      <p>
-        $<%= product.price %>
-      </p>
-
-    </div>
-
-  <% end %>
+  <%= render partial: "product", collection: @products %>
 
 <% else %>
 

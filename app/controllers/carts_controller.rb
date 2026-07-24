@@ -67,7 +67,7 @@ class CartsController < ApplicationController
 
     session[:cart] = {}
 
-    redirect_to products_path, notice: "Order placed successfully!"
+    redirect_to orders_path, notice: "Order placed successfully!"
   end
 
   def add

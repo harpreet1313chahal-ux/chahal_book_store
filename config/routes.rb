@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :products
   resources :categories
+  resources :orders, only: [:index, :show]
 
   resource :cart, controller: "carts", only: [ :show ] do
   post "add/:id", to: "carts#add", as: :add

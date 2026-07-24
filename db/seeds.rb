@@ -50,7 +50,7 @@ subjects.each_with_index do |subject, index|
       description: "Imported from Open Library",
       price: rand(10..60),
       stock_quantity: rand(5..40),
-      image_url: "",
+      image_url: book["cover_id"] ? "https://covers.openlibrary.org/b/id/#{book['cover_id']}-L.jpg" : ""
       category: categories[index]
     )
   end
