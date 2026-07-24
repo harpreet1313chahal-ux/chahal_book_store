@@ -1,49 +1,57 @@
 class CartsController < ApplicationController
   def show
     @cart = session[:cart] || {}
-    @items = Product.find(@cart.keys)
+    @items = Product.where(id: @cart.keys)
   end
 
-  def checkout
-    @cart = session[:cart] || {}
-    @items = Product.find(@cart.keys)
+def checkout
+  @cart = session[:cart] || {}
+  @items = Product.where(id: @cart.keys)
 
-    @subtotal = 0
+  # Remove products that no longer exist
+  @cart.select! { |id, _| @items.any? { |product| product.id.to_s == id } }
+  session[:cart] = @cart
 
-    @items.each do |product|
-      @subtotal += product.price * @cart[product.id.to_s]
-    end
+  @subtotal = 0
 
-    case params[:province]
-    when "Alberta"
-      @gst = @subtotal * 0.05
-      @pst = 0
-    when "Manitoba"
-      @gst = @subtotal * 0.05
-      @pst = @subtotal * 0.07
-    when "Ontario"
-      @gst = 0
-      @pst = @subtotal * 0.13
-    else
-      @gst = @subtotal * 0.05
-      @pst = 0
-    end
-
-    @total = @subtotal + @gst + @pst
+  @items.each do |product|
+    @subtotal += product.price * @cart[product.id.to_s]
   end
+
+  if params[:province_id].present?
+    province = Province.find_by(id: params[:province_id])
+
+    @gst = @subtotal * province.gst.to_f
+    @pst = @subtotal * province.pst.to_f
+    @hst = @subtotal * province.hst.to_f
+  else
+    @gst = 0
+    @pst = 0
+    @hst = 0
+  end
+
+  @total = @subtotal + @gst + @pst + @hst
+end
 
     def place_order
     session[:cart] ||= {}
 
-    user = User.first
+    user = User.find_by(id: session[:user_id])
 
-    order = Order.create(
-      user: user,
-      order_date: Date.today,
-      shipping_address: params[:address],
-      status: "Pending",
-      total_price: 0
-    )
+unless user
+  redirect_to login_path, alert: "Please log in before placing an order."
+  return
+end
+
+  province = Province.find_by(id: params[:province_id])
+
+order = Order.create(
+  user: user,
+  order_date: Date.today,
+  shipping_address: params[:address],
+  status: "Pending",
+  total_price: 0
+)
 
     total = 0
 

@@ -10,11 +10,12 @@
 
   <p>
     Province<br>
-    <%= select_tag :province,
-      options_for_select(
-        ["Manitoba", "Ontario", "Alberta", "British Columbia"],
-        params[:province]
-      ) %>
+    <%= select_tag :province_id,
+    options_from_collection_for_select(
+      Province.all.order(:name),
+      :id,
+      :name
+    ) %>
   </p>
 
   <%= submit_tag "Place Order" %>

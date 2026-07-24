@@ -1,9 +1,4 @@
-class OrdersController < ApplicationController
-  def index
-    @orders = Order.includes(:order_items, :products).order(created_at: :desc)
-  end
+require "test_helper"
 
-  def show
-    @order = Order.find(params[:id])
-  end
+class OrdersControllerTest < ActionDispatch::IntegrationTest
 end

@@ -3,8 +3,13 @@ require "json"
 
 puts "Deleting old data..."
 
-Category.destroy_all
+OrderItem.destroy_all
+CartItem.destroy_all
+Order.destroy_all
+User.destroy_all
 Product.destroy_all
+Category.destroy_all
+Province.destroy_all
 
 fiction = Category.create!(
   name: "Fiction",
@@ -50,7 +55,7 @@ subjects.each_with_index do |subject, index|
       description: "Imported from Open Library",
       price: rand(10..60),
       stock_quantity: rand(5..40),
-      image_url: book["cover_id"] ? "https://covers.openlibrary.org/b/id/#{book['cover_id']}-L.jpg" : ""
+      image_url: book["cover_id"] ? "https://covers.openlibrary.org/b/id/#{book['cover_id']}-L.jpg" : "",
       category: categories[index]
     )
   end
@@ -59,3 +64,15 @@ end
 puts "Done!"
 puts "#{Category.count} categories created"
 puts "#{Product.count} products created"
+
+
+Province.create!(name: "Alberta", gst: 0.05, pst: 0.00, hst: 0.00)
+Province.create!(name: "British Columbia", gst: 0.05, pst: 0.07, hst: 0.00)
+Province.create!(name: "Manitoba", gst: 0.05, pst: 0.07, hst: 0.00)
+Province.create!(name: "New Brunswick", gst: 0.00, pst: 0.00, hst: 0.15)
+Province.create!(name: "Newfoundland and Labrador", gst: 0.00, pst: 0.00, hst: 0.15)
+Province.create!(name: "Nova Scotia", gst: 0.00, pst: 0.00, hst: 0.15)
+Province.create!(name: "Ontario", gst: 0.00, pst: 0.00, hst: 0.13)
+Province.create!(name: "Prince Edward Island", gst: 0.00, pst: 0.00, hst: 0.15)
+Province.create!(name: "Quebec", gst: 0.05, pst: 0.09975, hst: 0.00)
+Province.create!(name: "Saskatchewan", gst: 0.05, pst: 0.06, hst: 0.00)
