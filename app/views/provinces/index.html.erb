@@ -1,0 +1,21 @@
+<h1>Province Tax Rates</h1>
+
+<table>
+  <tr>
+    <th>Province</th>
+    <th>GST</th>
+    <th>PST</th>
+    <th>HST</th>
+    <th></th>
+  </tr>
+
+  <% @provinces.each do |province| %>
+    <tr>
+      <td><%= province.name %></td>
+      <td><%= province.gst %></td>
+      <td><%= province.pst %></td>
+      <td><%= province.hst %></td>
+      <td><%= link_to "Edit", edit_province_path(province) %></td>
+    </tr>
+  <% end %>
+</table>
