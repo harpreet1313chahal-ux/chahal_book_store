@@ -45,11 +45,30 @@ end
 
   province = Province.find_by(id: params[:province_id])
 
+  subtotal = 0
+
+session[:cart].each do |product_id, quantity|
+  product = Product.find(product_id)
+  subtotal += product.price * quantity
+end
+
+gst = subtotal * province.gst.to_f
+pst = subtotal * province.pst.to_f
+hst = subtotal * province.hst.to_f
+
+tax_amount = gst + pst + hst
+
 order = Order.create(
   user: user,
   order_date: Date.today,
   shipping_address: params[:address],
-  status: "Pending",
+  status: "New",
+
+  gst_rate: province.gst,
+  pst_rate: province.pst,
+  hst_rate: province.hst,
+  tax_amount: tax_amount,
+
   total_price: 0
 )
 
@@ -71,7 +90,7 @@ order = Order.create(
       total += subtotal
     end
 
-    order.update(total_price: total)
+    order.update(total_price: total + tax_amount)
 
     session[:cart] = {}
 
