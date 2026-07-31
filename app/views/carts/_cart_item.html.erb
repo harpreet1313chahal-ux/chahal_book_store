@@ -1,0 +1,25 @@
+<div class="cart-item">
+
+  <p>
+    <strong><%= product.title %></strong><br>
+
+    <%= form_with url: update_cart_path(product), method: :patch do %>
+      Quantity:
+      <%= number_field_tag :quantity,
+                           cart[product.id.to_s],
+                           min: 1 %>
+
+      <%= submit_tag "Update" %>
+    <% end %>
+
+    Price: $<%= product.price %><br><br>
+
+    <%= button_to "Remove",
+                  remove_cart_path(product),
+                  method: :delete %>
+
+  </p>
+
+</div>
+
+<hr>
