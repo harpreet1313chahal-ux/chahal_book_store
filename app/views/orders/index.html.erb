@@ -13,9 +13,15 @@
       </p>
 
       <p>
-        <strong>Status:</strong>
-        <%= order.status %>
-      </p>
+  <strong>Status:</strong>
+
+  <%= form_with model: order, local: true do |f| %>
+    <%= f.select :status,
+                 Order::STATUSES,
+                 {},
+                 onchange: "this.form.submit();" %>
+  <% end %>
+</p>
 
       <p>
         <strong>Total:</strong>

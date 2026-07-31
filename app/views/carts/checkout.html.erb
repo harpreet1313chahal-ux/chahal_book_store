@@ -1,4 +1,5 @@
 <h1>Checkout</h1>
+<div class="checkout-container">
 
 <p>Customer Information</p>
 
@@ -24,19 +25,29 @@
 
 <hr>
 
+<h3>Or pay securely with Stripe</h3>
+
+<%= button_to "Pay with Stripe",
+              create_checkout_session_cart_path,
+              method: :post,
+              class: "details-btn",
+              form: { data: { turbo: false } } %>
+
+<hr>
+
 <h2>Invoice</h2>
 
 <% @items.each do |product| %>
 
-  <p>
-    <strong><%= product.title %></strong><br>
+  <div class="invoice-item">
+  <strong><%= product.title %></strong><br>
 
-    Quantity:
-    <%= @cart[product.id.to_s] %><br>
+  Quantity:
+  <%= @cart[product.id.to_s] %><br>
 
-    Price:
-    $<%= product.price %>
-  </p>
+  Price:
+  $<%= product.price %>
+</div>
 
 <% end %>
 
@@ -49,3 +60,5 @@
 <p><strong>PST/HST:</strong> $<%= @pst.round(2) %></p>
 
 <h3>Total: $<%= @total.round(2) %></h3>
+
+</div>

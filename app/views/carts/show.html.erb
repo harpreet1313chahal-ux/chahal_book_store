@@ -4,6 +4,8 @@
 
   <% @items.each do |product| %>
 
+  <div class="cart-item">
+
     <p>
       <strong><%= product.title %></strong><br>
 
@@ -22,7 +24,7 @@
                     remove_cart_path(product),
                     method: :delete %>
 
-    </p>
+    </div>
 
     <hr>
 

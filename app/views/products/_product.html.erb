@@ -1,6 +1,12 @@
 <div class="product-card">
 
-  <h3 style="margin-top:0;">
+  <% if product.image_url.present? %>
+    <%= image_tag product.image_url,
+                  alt: product.title,
+                  class: "book-cover" %>
+  <% end %>
+
+  <h3>
     <%= link_to product.title, product %>
   </h3>
 
@@ -9,8 +15,12 @@
     <%= product.author %>
   </p>
 
-  <p>
+  <p class="price">
     $<%= product.price %>
+  </p>
+
+  <p>
+    <%= link_to "View Details", product, class: "details-btn" %>
   </p>
 
 </div>

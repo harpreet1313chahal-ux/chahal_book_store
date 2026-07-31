@@ -1,10 +1,15 @@
 class Order < ApplicationRecord
-belongs_to :user
+  belongs_to :user
 
-has_many :order_items
-has_many :products, through: :order_items
+  has_many :order_items, dependent: :destroy
+  has_many :products, through: :order_items
 
-  validates :status, presence: true
+  STATUSES = ["New", "Paid", "Shipped"].freeze
+
+  validates :status,
+            presence: true,
+            inclusion: { in: STATUSES }
+
   validates :total_price,
             presence: true,
             numericality: { greater_than_or_equal_to: 0 }
