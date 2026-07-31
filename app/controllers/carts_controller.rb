@@ -118,7 +118,7 @@ def create_checkout_session
   end
 
   session = Stripe::Checkout::Session.create(
-    payment_method_types: ["card"],
+    payment_method_types: [ "card" ],
     mode: "payment",
     line_items: line_items,
     success_url: success_cart_url,
@@ -130,7 +130,7 @@ end
 
   def success
     Rails.logger.info session[:cart].inspect
-    
+
   user = User.find(session[:user_id])
   province = Province.first
 

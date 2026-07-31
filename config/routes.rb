@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
 
-  resource :cart, controller: "carts", only: [:show] do
+  resource :cart, controller: "carts", only: [ :show ] do
   post "add/:id", to: "carts#add", as: :add
   patch "update/:id", to: "carts#update", as: :update
   delete "remove/:id", to: "carts#remove", as: :remove
