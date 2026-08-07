@@ -5,6 +5,7 @@ ActiveAdmin.register Product do
                 :description,
                 :price,
                 :stock_quantity,
-                :image_url,
                 :category_id
+
+  config.filters = false
 end

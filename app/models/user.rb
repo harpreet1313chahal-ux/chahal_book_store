@@ -17,4 +17,20 @@ class User < ApplicationRecord
   validates :password,
             length: { minimum: 6 },
             allow_nil: true
+
+            def self.ransackable_attributes(auth_object = nil)
+  [
+    "id",
+    "email",
+    "name",
+    "created_at",
+    "updated_at"
+  ]
+end
+
+def self.ransackable_associations(auth_object = nil)
+  [
+    "orders"
+  ]
+end
 end

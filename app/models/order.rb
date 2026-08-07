@@ -15,4 +15,29 @@ class Order < ApplicationRecord
   validates :total_price,
             presence: true,
             numericality: { greater_than_or_equal_to: 0 }
+
+def self.ransackable_attributes(auth_object = nil)
+  [
+    "id",
+    "user_id",
+    "order_date",
+    "total_price",
+    "status",
+    "shipping_address",
+    "gst_rate",
+    "pst_rate",
+    "hst_rate",
+    "tax_amount",
+    "created_at",
+    "updated_at"
+  ]
+end
+
+def self.ransackable_associations(auth_object = nil)
+  [
+    "order_items",
+    "products",
+    "user"
+  ]
+end
 end
