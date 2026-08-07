@@ -21,4 +21,11 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+## Code Quality
+
+This project uses RuboCop to maintain Ruby code quality and consistent formatting.
+
+To check the code style, run:
+
+```bash
+bundle exec rubocop
