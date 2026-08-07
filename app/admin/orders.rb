@@ -1,5 +1,4 @@
 ActiveAdmin.register Order do
-
   permit_params :user_id,
                 :order_date,
                 :total_price,
@@ -34,5 +33,4 @@ ActiveAdmin.register Order do
 
     f.actions
   end
-
 end
