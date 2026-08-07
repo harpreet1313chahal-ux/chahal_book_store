@@ -4,6 +4,7 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.3"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
+gem "sprockets-rails"
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -73,3 +74,7 @@ gem "kaminari", "~> 1.2"
 group :development, :test do
   gem "dotenv-rails"
 end
+
+gem "activeadmin", "~> 3.5"
+
+gem "devise", "~> 5.0"

@@ -10,8 +10,9 @@ class User < ApplicationRecord
   validates :last_name, presence: true
 
   validates :email,
-            presence: true,
-            uniqueness: true
+          presence: true,
+          uniqueness: true,
+          format: { with: URI::MailTo::EMAIL_REGEXP }
 
   validates :password,
             length: { minimum: 6 },

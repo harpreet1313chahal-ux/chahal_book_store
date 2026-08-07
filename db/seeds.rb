@@ -79,3 +79,4 @@ Province.create!(name: "Saskatchewan", gst: 0.05, pst: 0.06, hst: 0.00)
 Province.create!(name: "Northwest Territories", gst: 0.05, pst: 0.00, hst: 0.00)
 Province.create!(name: "Nunavut", gst: 0.05, pst: 0.00, hst: 0.00)
 Province.create!(name: "Yukon", gst: 0.05, pst: 0.00, hst: 0.00)
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
